@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Milk Dispenser</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="brand">श्री कृष्णा मिल्क कलेक्शन</div>
+        <div class="subbrand">Milk Dispenser</div>
+      </div>
+      <button id="openDev" class="icon-btn" aria-label="Developer and settings">⚙</button>
+    </header>
+
+    <section class="summary-grid">
+      <div class="summary-card">
+        <span>Milk Sold</span>
+        <strong id="totalQty">0.000 L</strong>
+      </div>
+      <div class="summary-card">
+        <span>Amount</span>
+        <strong id="totalAmount">₹0.00</strong>
+      </div>
+    </section>
+
+    <section id="operationScreen" class="screen active">
+      <div class="rate-row">
+        <div>
+          <span class="label">Rate</span>
+          <strong id="rateDisplay">₹70.00 / L</strong>
+        </div>
+        <button id="editRate" class="text-btn">Edit</button>
+      </div>
+
+      <div class="amount-panel">
+        <span class="label">Enter Amount</span>
+        <div id="amountDisplay" class="amount-display">₹100</div>
+        <div class="keypad" id="keypad">
+          <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+          <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+          <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+          <button data-key="clear">C</button><button data-key="0">0</button><button data-key="back">⌫</button>
+        </div>
+      </div>
+
+      <div class="quantity-card">
+        <span class="label">Calculated Milk Quantity</span>
+        <strong id="targetQty">1.429 L</strong>
+        <small>Target quantity • actual quantity will come from the weighing scale</small>
+      </div>
+
+      <div class="preset-row" id="presetRow"></div>
+
+      <button id="dispenseBtn" class="primary-btn">DISPENSE</button>
+
+      <div id="dispenseStatus" class="status-card hidden">
+        <div class="status-title">Dispensing</div>
+        <strong id="liveQty">0.000 L</strong>
+        <div>Target: <span id="statusTarget">0.000 L</span></div>
+        <div id="statusText">Waiting for scale integration…</div>
+        <button id="stopBtn" class="secondary-btn">STOP</button>
+      </div>
+    </section>
+
+    <section id="developerScreen" class="screen">
+      <div class="dev-header">
+        <div>
+          <h2>Developer & Settings</h2>
+          <p>Diagnostics, configuration and transaction controls.</p>
+        </div>
+        <button id="backToOperation" class="secondary-btn">Operation</button>
+      </div>
+
+      <div class="settings-grid">
+        <label>Rate per litre
+          <input id="rateInput" type="number" min="0" step="0.01">
+        </label>
+        <label>Safety timeout (seconds)
+          <input id="timeoutInput" type="number" min="1" step="1">
+        </label>
+        <label>Operator name
+          <input id="operatorInput" type="text" placeholder="Operator">
+        </label>
+        <label>Currency
+          <input id="currencyInput" type="text" value="₹">
+        </label>
+      </div>
+
+      <div class="dev-actions">
+        <button id="saveSettings" class="primary-btn">Save Settings</button>
+        <button id="syncNow" class="secondary-btn">Sync Transactions</button>
+        <button id="clearLocal" class="danger-btn">Clear Local Queue</button>
+      </div>
+
+      <div class="diagnostics-grid">
+        <div class="panel">
+          <div class="panel-title">Connection</div>
+          <div id="connectionState" class="pill offline">Backend: offline/test mode</div>
+          <div id="scaleState" class="pill offline">Scale: not connected</div>
+          <div id="valveState" class="pill offline">Valve: not connected</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Raw Data</div>
+          <pre id="rawData" class="console"></pre>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Application Log</div>
+          <pre id="appLog" class="console"></pre>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Transactions waiting to sync</div>
+          <strong id="queueCount">0</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Edit</h3>
+        <button id="closeModal" class="icon-btn">×</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
