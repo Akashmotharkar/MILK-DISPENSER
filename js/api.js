@@ -1,6 +1,6 @@
 const API = (() => {
   async function post(action, payload){
-    if(!CONFIG.API_URL || CONFIG.API_URL.includes("PASTE_YOUR")){
+    if(!CONFIG.API_URL || CONFIG.API_URL.includes("https://script.google.com/macros/s/AKfycbzOQNqUU6WAFmPoJuUcc3Wz8chKCD7VpEnSA7nWJecrPGuDpq-4NuvXlsbHK1eG1p2b/exec")){
       return {ok:false,offline:true,message:"Google Apps Script URL not configured"};
     }
     try{
