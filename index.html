@@ -62,13 +62,35 @@
     </section>
 
     <section id="developerScreen" class="screen">
-    
+
+
+
+      
       <div class="settings-grid">
-        <label>Rate per litre<input id="rateInput" type="number" min="0" step="0.01"></label>
-        <label>Safety timeout (seconds)<input id="timeoutInput" type="number" min="1" step="1"></label>
-        <label>Operator name<input id="operatorInput" type="text" placeholder="Operator"></label>
-        <label>Currency<input id="currencyInput" type="text" value="₹"></label>
+        <label>
+          Rate per litre
+          <input
+            id="rateInput"
+            type="number"
+            min="0"
+            step="0.01"
+          >
+        </label>
+      
+        <label>
+          Safety timeout (seconds)
+          <input
+            id="timeoutInput"
+            type="number"
+            min="1"
+            step="1"
+          >
+        </label>
       </div>
+
+
+
+      
       <div class="dev-actions">
         <button id="saveSettings" class="primary-btn">Save Settings</button>
         <button id="syncNow" class="secondary-btn">Sync Transactions</button>
