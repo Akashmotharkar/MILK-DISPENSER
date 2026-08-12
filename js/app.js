@@ -813,30 +813,18 @@ const App = (() => {
 
     state =
       Storage.update({
-
+    
         rate:
           newRate > 0
             ? newRate
             : state.rate,
-
+    
         timeoutSeconds:
           Number(
             $("timeoutInput").value
           ) ||
-          state.timeoutSeconds,
-
-        operator:
-          $("operatorInput")
-            .value
-            .trim(),
-
-        currency:
-          $("currencyInput")
-            .value
-            .trim() ||
-          "₹"
+          state.timeoutSeconds
       });
-
 
     render();
 
