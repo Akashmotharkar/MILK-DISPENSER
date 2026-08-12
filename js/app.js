@@ -953,18 +953,6 @@ const App = (() => {
       can remove it from HTML later.
     */
 
-    const backToOperation =
-      $("backToOperation");
-
-
-    if (backToOperation) {
-
-      backToOperation.addEventListener(
-        "click",
-        () => switchScreen("operation")
-      );
-    }
-
 
     const dispenseButton =
       $("dispenseBtn");
