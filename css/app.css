@@ -63,12 +63,35 @@ button{cursor:pointer}
 .modal-header h3{margin:0}
 .modal-body-row{display:flex;gap:8px;margin-top:12px}
 .modal-body-row input{flex:1;padding:12px;border:1px solid var(--border);border-radius:10px}
+
+
 @media(max-width:560px){
-  .summary-card strong{font-size:16px}
-  .summary-card{padding:10px}
-  .settings-grid,.dev-actions{grid-template-columns:1fr}
-  .preset-row{grid-template-columns:repeat(4,1fr)}
-  .brand{font-size:17px}
+
+  .summary-card strong{
+    font-size:16px;
+  }
+
+  .summary-card{
+    padding:10px;
+  }
+
+  /* Keep Rate and Safety Timeout side-by-side */
+  .settings-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  /* Keep settings action buttons stacked on small screens */
+  .dev-actions{
+    grid-template-columns:1fr;
+  }
+
+  .preset-row{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .brand{
+    font-size:17px;
+  }
 }
 
 /* V3: compact operation layout, designed for one-screen Android use */
