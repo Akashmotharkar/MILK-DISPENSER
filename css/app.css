@@ -73,16 +73,27 @@ button{cursor:pointer}
   .brand{font-size:17px}
 }
 
-.operation-screen{width:min(100%,760px);margin:auto;padding:7px 10px;box-sizing:border-box}
-.app-header{min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:15px;background:#0d766b;color:#fff}
-.brand{font-size:16px;font-weight:800;white-space:nowrap}.header-actions{display:flex;align-items:center;gap:8px}
-.rate-readonly{font-size:11px;white-space:nowrap}.rate-readonly strong{font-size:14px}.icon-btn{width:36px;height:36px;border:1px solid #ffffff88;border-radius:11px;background:transparent;color:#fff;font-size:19px}
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:7px}.summary-card,.quantity-card,.amount-card,.dispensing-card{background:#fff;border:1px solid #dfe5e5;border-radius:15px;box-shadow:0 2px 7px #0000000d}
-.summary-card{padding:8px 11px}.summary-card span,.quantity-card span,.dispensing-card>span{display:block;color:#69757a;font-weight:700;font-size:12px}.summary-card strong{display:block;font-size:21px;color:#13252a}
-.quantity-card{margin-top:7px;padding:8px 10px;text-align:center}.quantity-card strong{display:block;font-size:32px;line-height:1.05;color:#0d766b}
-.amount-card{margin-top:7px;padding:8px 9px}.amount-card label{display:block;text-align:center;color:#69757a;font-weight:700;font-size:12px}.amount-display{text-align:center;font-size:34px;line-height:1.05;font-weight:800;color:#13252a;margin:2px 0 6px}
-.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.keypad button,.preset-grid button{min-height:43px;border:1px solid #dfe5e5;border-radius:12px;background:#fff;font-size:20px;font-weight:800}
-.preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px}.preset-grid button{min-height:37px;font-size:14px;color:#0d766b}
-.dispensing-card{margin-top:6px;padding:7px 10px;text-align:center;background:#eef9f6;border-color:#cfe9e3}.dispensing-card strong{display:block;color:#0d766b;font-size:29px;line-height:1.05}.dispensing-card div,.dispensing-card small{font-size:12px}.dispensing-card small{display:block;color:#0d766b;font-weight:800}
-.dispense-btn{width:100%;min-height:49px;margin-top:6px;border:0;border-radius:14px;background:#0d766b;color:#fff;font-size:18px;font-weight:900}
-@media(min-width:521px){.operation-screen{padding:10px 14px}.app-header{min-height:58px;padding:10px 14px;border-radius:18px}.brand{font-size:clamp(18px,3.8vw,26px)}.rate-readonly{font-size:14px}.rate-readonly strong{font-size:17px}.icon-btn{width:42px;height:42px;font-size:22px}.summary-grid{gap:10px;margin-top:10px}.summary-card{padding:11px 14px}.summary-card span,.quantity-card span,.dispensing-card>span{font-size:14px}.summary-card strong{font-size:24px}.quantity-card{margin-top:10px;padding:10px 14px}.quantity-card strong{font-size:38px}.amount-card{margin-top:10px;padding:10px 12px}.amount-card label{font-size:14px}.amount-display{font-size:40px}.keypad{gap:7px}.keypad button{min-height:48px;font-size:22px}.preset-grid{gap:8px;margin-top:9px}.preset-grid button{min-height:42px;font-size:16px}.dispensing-card{margin-top:9px;padding:10px 12px}.dispensing-card strong{font-size:34px}.dispensing-card div,.dispensing-card small{font-size:14px}.dispense-btn{min-height:54px;margin-top:9px;font-size:20px}}
+/* V3: compact operation layout, designed for one-screen Android use */
+.app-shell{max-width:720px;margin:0 auto;padding:8px 16px 10px;box-sizing:border-box}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+.brand{font-size:19px;font-weight:800;white-space:nowrap}
+.rate-inline{display:flex;align-items:center;gap:5px;white-space:nowrap}.rate-inline span{font-size:12px;color:#667085}.rate-inline strong{font-size:16px}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:7px}
+.summary-card{padding:8px 13px}.summary-card span{font-size:13px}.summary-card strong{font-size:21px}
+.screen.active{display:flex;flex-direction:column;gap:7px}
+.quantity-card{text-align:center;padding:7px 12px}.quantity-card strong{display:block;font-size:35px;line-height:1.02;margin-top:2px}
+.amount-panel{padding:8px 18px 9px;text-align:center}.amount-display{font-size:35px;line-height:1.03;font-weight:900;margin:2px 0 7px}
+.keypad{gap:5px}.keypad button{height:41px;font-size:20px}
+.preset-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.preset-row button{height:37px;font-size:15px}
+.dispense-card{text-align:center;padding:8px 12px}.dispense-card strong{display:block;font-size:31px;line-height:1.03;margin:2px 0}.dispense-card div{font-size:14px}.dispense-card div:last-child{font-weight:800;color:#147d72}
+.dispense-card + .primary-btn{height:52px;font-size:21px}
+.stop-inline{width:100%;height:42px}
+@media(max-height:760px){
+ .app-shell{padding-top:4px;padding-bottom:6px}.topbar{margin-bottom:4px}.brand{font-size:17px}
+ .summary-grid{margin-bottom:4px}.summary-card{padding:6px 10px}.summary-card strong{font-size:19px}
+ .screen.active{gap:5px}.quantity-card{padding:5px 10px}.quantity-card strong{font-size:30px}
+ .amount-panel{padding:5px 14px 6px}.amount-display{font-size:31px;margin-bottom:5px}.keypad{gap:4px}.keypad button{height:35px;font-size:18px}
+ .preset-row{gap:5px}.preset-row button{height:32px;font-size:13px}
+ .dispense-card{padding:5px 10px}.dispense-card strong{font-size:27px}.dispense-card div{font-size:13px}
+ .dispense-card + .primary-btn{height:47px}
+}
