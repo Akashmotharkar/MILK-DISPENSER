@@ -10,7 +10,7 @@ const App = (() => {
   const $ = id => document.getElementById(id);
 
   const money = n =>
-    `${state.currency || "₹"}${Number(n || 0).toFixed(2)}`;
+    `₹${Number(n || 0).toFixed(2)}`;
 
   const qty = n =>
     `${Number(n || 0).toFixed(3)} L`;
@@ -115,37 +115,20 @@ const App = (() => {
 
     const rateInput =
       $("rateInput");
-
+    
     const timeoutInput =
       $("timeoutInput");
-
-    const operatorInput =
-      $("operatorInput");
-
-    const currencyInput =
-      $("currencyInput");
-
-
+    
+    
     if (rateInput) {
       rateInput.value =
         state.rate;
     }
-
+    
     if (timeoutInput) {
       timeoutInput.value =
         state.timeoutSeconds;
     }
-
-    if (operatorInput) {
-      operatorInput.value =
-        state.operator || "";
-    }
-
-    if (currencyInput) {
-      currencyInput.value =
-        state.currency || "₹";
-    }
-
 
     renderPresets();
 
