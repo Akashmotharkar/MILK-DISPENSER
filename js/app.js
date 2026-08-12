@@ -93,7 +93,7 @@ const App = (() => {
   function startDispense(){
     if(running || amount <= 0 || state.rate <= 0) return;
     running = true;
-    $("dispenseStatus").classList.remove("hidden");
+    $("dispenseCard").classList.remove("hidden");
     $("statusText").textContent = "Scale/valve integration will be connected later.";
     $("liveQty").textContent = "0.000 L";
     $("dispenseBtn").disabled = true;
