@@ -15,55 +15,80 @@ const App = (() => {
   const qty = n =>
     `${Number(n || 0).toFixed(3)} L`;
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      LOGGING
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function log(message) {
+
     const line =
       `${new Date().toLocaleTimeString()}  ${message}`;
 
     logLines.unshift(line);
-    logLines = logLines.slice(0, 100);
 
-    const el = $("appLog");
-    if (el) {
-      el.textContent = logLines.join("\n");
+    logLines =
+      logLines.slice(0, 100);
+
+    const element = $("appLog");
+
+    if (element) {
+      element.textContent =
+        logLines.join("\n");
     }
   }
+
 
   function raw(data) {
-    rawLines.unshift(String(data));
-    rawLines = rawLines.slice(0, 100);
 
-    const el = $("rawData");
-    if (el) {
-      el.textContent = rawLines.join("\n");
+    rawLines.unshift(String(data));
+
+    rawLines =
+      rawLines.slice(0, 100);
+
+    const element = $("rawData");
+
+    if (element) {
+      element.textContent =
+        rawLines.join("\n");
     }
   }
 
-  /* ---------------------------------------------------------
-     CALCULATIONS
-  --------------------------------------------------------- */
+
+  /* =========================================================
+     CALCULATION
+  ========================================================= */
 
   function targetQty() {
-    if (Number(state.rate) <= 0) {
+
+    const rate =
+      Number(state.rate);
+
+    if (!rate || rate <= 0) {
       return 0;
     }
 
-    return amount / Number(state.rate);
+    return amount / rate;
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      RENDER
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function render() {
 
-    const rateDisplay = $("rateDisplay");
-    const amountDisplay = $("amountDisplay");
-    const targetQtyDisplay = $("targetQty");
-    const statusTarget = $("statusTarget");
+    const rateDisplay =
+      $("rateDisplay");
+
+    const amountDisplay =
+      $("amountDisplay");
+
+    const targetQtyDisplay =
+      $("targetQty");
+
+    const statusTarget =
+      $("statusTarget");
 
     if (rateDisplay) {
       rateDisplay.textContent =
@@ -85,34 +110,55 @@ const App = (() => {
         qty(targetQty());
     }
 
-    const rateInput = $("rateInput");
-    const timeoutInput = $("timeoutInput");
-    const operatorInput = $("operatorInput");
-    const currencyInput = $("currencyInput");
+
+    /* Developer/settings fields */
+
+    const rateInput =
+      $("rateInput");
+
+    const timeoutInput =
+      $("timeoutInput");
+
+    const operatorInput =
+      $("operatorInput");
+
+    const currencyInput =
+      $("currencyInput");
+
 
     if (rateInput) {
-      rateInput.value = state.rate;
+      rateInput.value =
+        state.rate;
     }
 
     if (timeoutInput) {
-      timeoutInput.value = state.timeoutSeconds;
+      timeoutInput.value =
+        state.timeoutSeconds;
     }
 
     if (operatorInput) {
-      operatorInput.value = state.operator || "";
+      operatorInput.value =
+        state.operator || "";
     }
 
     if (currencyInput) {
-      currencyInput.value = state.currency || "₹";
+      currencyInput.value =
+        state.currency || "₹";
     }
 
+
     renderPresets();
+
     renderSummary();
+
     renderRunningState();
 
-    const queueCount = $("queueCount");
+
+    const queueCount =
+      $("queueCount");
 
     if (queueCount) {
+
       queueCount.textContent =
         Array.isArray(state.transactions)
           ? state.transactions.length
@@ -120,13 +166,15 @@ const App = (() => {
     }
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      PRESETS
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function renderPresets() {
 
-    const container = $("presetRow");
+    const container =
+      $("presetRow");
 
     if (!container) {
       return;
@@ -137,58 +185,73 @@ const App = (() => {
         ? state.presets
         : [20, 50, 100, 200];
 
-    container.innerHTML = presets.map(value => `
-      <button
-        type="button"
-        class="preset-btn"
-        data-preset="${Number(value)}"
-      >
-        ${money(value)}
-      </button>
-    `).join("");
+
+    container.innerHTML =
+      presets.map(value => `
+        <button
+          type="button"
+          data-preset="${Number(value)}"
+        >
+          ${money(value)}
+        </button>
+      `).join("");
+
 
     container
       .querySelectorAll("[data-preset]")
       .forEach(button => {
 
-        button.addEventListener("click", () => {
+        button.addEventListener(
+          "click",
+          () => {
 
-          amount =
-            Number(button.dataset.preset) || 0;
+            amount =
+              Number(button.dataset.preset) || 0;
 
-          render();
+            render();
 
-          log(
-            `Preset selected: ${money(amount)}`
-          );
-        });
+            log(
+              `Preset selected: ${money(amount)}`
+            );
+          }
+        );
 
       });
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      SUMMARY
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function renderSummary() {
 
-    const totalQtyElement = $("totalQty");
-    const totalAmountElement = $("totalAmount");
+    const totalQtyElement =
+      $("totalQty");
 
-    if (!totalQtyElement || !totalAmountElement) {
+    const totalAmountElement =
+      $("totalAmount");
+
+    if (
+      !totalQtyElement ||
+      !totalAmountElement
+    ) {
       return;
     }
+
 
     const transactions =
       Array.isArray(state.transactions)
         ? state.transactions
         : [];
 
+
     const completed =
       transactions.filter(
         transaction =>
           transaction.status === "completed"
       );
+
 
     const totalQty =
       completed.reduce(
@@ -202,13 +265,17 @@ const App = (() => {
         0
       );
 
+
     const totalAmount =
       completed.reduce(
         (sum, transaction) =>
           sum +
-          Number(transaction.amount || 0),
+          Number(
+            transaction.amount || 0
+          ),
         0
       );
+
 
     totalQtyElement.textContent =
       qty(totalQty);
@@ -217,11 +284,12 @@ const App = (() => {
       money(totalAmount);
   }
 
-  /* ---------------------------------------------------------
-     SCREEN NAVIGATION
-  --------------------------------------------------------- */
 
-  function switchScreen(name) {
+  /* =========================================================
+     SCREEN TOGGLE
+  ========================================================= */
+
+  function switchScreen(screen) {
 
     const operationScreen =
       $("operationScreen");
@@ -229,75 +297,114 @@ const App = (() => {
     const developerScreen =
       $("developerScreen");
 
-    if (!operationScreen || !developerScreen) {
+    if (
+      !operationScreen ||
+      !developerScreen
+    ) {
       return;
     }
 
+
+    const showDeveloper =
+      screen === "developer";
+
+
     operationScreen.classList.toggle(
       "active",
-      name === "operation"
+      !showDeveloper
     );
 
     developerScreen.classList.toggle(
       "active",
-      name === "developer"
+      showDeveloper
     );
+
+
+    updateSettingsIcon(
+      showDeveloper
+    );
+
 
     log(
-      name === "operation"
-        ? "Operation screen opened"
-        : "Developer & Settings opened"
+      showDeveloper
+        ? "Developer & Settings opened"
+        : "Operator mode opened"
     );
   }
 
-  /* ---------------------------------------------------------
-     DEVELOPER BUTTON
-     
-     Your current index.html does not contain openDev.
-     Therefore create it automatically if it doesn't exist.
-  --------------------------------------------------------- */
 
-  function ensureDeveloperButton() {
+  /* =========================================================
+     SETTINGS ICON
+  ========================================================= */
 
-    if ($("openDev")) {
-      return;
-    }
-
-    const rateInline =
-      document.querySelector(".rate-inline");
-
-    if (!rateInline) {
-      return;
-    }
+  function updateSettingsIcon(
+    developerMode
+  ) {
 
     const button =
-      document.createElement("button");
+      $("settingsToggle");
 
-    button.id = "openDev";
-    button.type = "button";
-    button.className = "text-btn";
-    button.textContent = "⚙";
+    if (!button) {
+      return;
+    }
 
-    button.setAttribute(
-      "aria-label",
-      "Developer and settings"
-    );
 
-    rateInline.appendChild(button);
+    if (developerMode) {
 
-    button.addEventListener(
-      "click",
-      () => switchScreen("developer")
+      button.textContent =
+        "↩";
+
+      button.setAttribute(
+        "aria-label",
+        "Return to operator mode"
+      );
+
+    } else {
+
+      button.textContent =
+        "⚙";
+
+      button.setAttribute(
+        "aria-label",
+        "Open developer and settings"
+      );
+    }
+  }
+
+
+  function toggleDeveloperScreen() {
+
+    const developerScreen =
+      $("developerScreen");
+
+    if (!developerScreen) {
+      return;
+    }
+
+
+    const currentlyDeveloper =
+      developerScreen.classList.contains(
+        "active"
+      );
+
+
+    switchScreen(
+      currentlyDeveloper
+        ? "operation"
+        : "developer"
     );
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      TRANSACTION
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function createTransaction() {
 
-    const now = new Date();
+    const now =
+      new Date();
+
 
     return {
 
@@ -312,7 +419,8 @@ const App = (() => {
         now.toISOString(),
 
       date:
-        now.toISOString().slice(0, 10),
+        now.toISOString()
+          .slice(0, 10),
 
       operator:
         state.operator || "",
@@ -324,7 +432,9 @@ const App = (() => {
         Number(amount),
 
       targetQty:
-        Number(targetQty().toFixed(3)),
+        Number(
+          targetQty().toFixed(3)
+        ),
 
       actualQty:
         null,
@@ -337,6 +447,7 @@ const App = (() => {
     };
   }
 
+
   async function saveTransaction(tx) {
 
     state =
@@ -344,13 +455,16 @@ const App = (() => {
 
     render();
 
+
     const result =
       await API.saveTransaction(tx);
+
 
     if (result.ok) {
 
       state =
         Storage.get();
+
 
       state.transactions =
         state.transactions.filter(
@@ -359,7 +473,9 @@ const App = (() => {
             tx.transactionId
         );
 
+
       Storage.save(state);
+
 
       log(
         `Transaction synced: ${tx.transactionId}`
@@ -372,12 +488,14 @@ const App = (() => {
       );
     }
 
+
     render();
   }
 
-  /* ---------------------------------------------------------
-     DISPENSING STATE
-  --------------------------------------------------------- */
+
+  /* =========================================================
+     DISPENSING
+  ========================================================= */
 
   function renderRunningState() {
 
@@ -390,10 +508,13 @@ const App = (() => {
     const statusText =
       $("statusText");
 
+
     if (dispenseButton) {
+
       dispenseButton.disabled =
         running;
     }
+
 
     if (stopButton) {
 
@@ -403,27 +524,25 @@ const App = (() => {
       );
     }
 
-    if (statusText && !running) {
 
-      /*
-       Don't overwrite the status after the
-       operator has stopped dispensing.
-      */
+    if (
+      statusText &&
+      !running &&
+      statusText.dataset.manual !== "true"
+    ) {
 
-      if (
-        statusText.dataset.manual !== "true"
-      ) {
-        statusText.textContent =
-          "Ready to dispense";
-      }
+      statusText.textContent =
+        "Ready to dispense";
     }
   }
+
 
   function startDispense() {
 
     if (running) {
       return;
     }
+
 
     if (amount <= 0) {
 
@@ -434,16 +553,19 @@ const App = (() => {
       return;
     }
 
+
     if (Number(state.rate) <= 0) {
 
       log(
-        "Dispense rejected: invalid milk rate"
+        "Dispense rejected: invalid rate"
       );
 
       return;
     }
 
+
     running = true;
+
 
     const liveQty =
       $("liveQty");
@@ -451,10 +573,13 @@ const App = (() => {
     const statusText =
       $("statusText");
 
+
     if (liveQty) {
+
       liveQty.textContent =
         "0.000 L";
     }
+
 
     if (statusText) {
 
@@ -465,26 +590,33 @@ const App = (() => {
         "Dispensing...";
     }
 
+
     renderRunningState();
+
 
     log(
       `Dispense requested: ${money(amount)}, target ${qty(targetQty())}`
     );
 
+
     /*
-      IMPORTANT:
+      Hardware integration will be added later.
 
-      No time-based dispensing is performed here.
+      Normal stopping:
+        Actual weighing-scale quantity
+        reaches the target quantity.
 
-      Later this function will command the ESP32
-      to open the solenoid valve.
+      NOT time based.
 
-      The weighing scale will provide actual quantity.
+      Safety timeout will only protect
+      against faults such as:
 
-      Safety timeout will only act as a protection
-      against the valve remaining open indefinitely.
+        - scale communication failure
+        - valve stuck open
+        - ESP32 communication failure
     */
   }
+
 
   function stopDispense() {
 
@@ -492,10 +624,13 @@ const App = (() => {
       return;
     }
 
+
     running = false;
+
 
     const statusText =
       $("statusText");
+
 
     if (statusText) {
 
@@ -506,90 +641,42 @@ const App = (() => {
         "Stopped by operator.";
     }
 
+
     renderRunningState();
+
 
     log(
       "Dispense stopped by operator."
     );
-
-    /*
-      Later:
-
-      ESP32 valve OFF command will go here.
-    */
   }
 
-  /* ---------------------------------------------------------
-     RATE MODAL
-  --------------------------------------------------------- */
 
-  function openRateModal() {
+  /* =========================================================
+     RATE
+     
+     IMPORTANT:
+     Rate editing is ONLY available inside
+     Developer & Settings.
+  ========================================================= */
 
-    const modal =
-      $("modal");
-
-    const modalTitle =
-      $("modalTitle");
-
-    const modalBody =
-      $("modalBody");
-
-    if (!modal || !modalTitle || !modalBody) {
-      return;
-    }
-
-    modalTitle.textContent =
-      "Edit Rate";
-
-    modalBody.innerHTML = `
-      <div class="modal-body-row">
-
-        <input
-          id="modalRate"
-          type="number"
-          min="0"
-          step="0.01"
-          value="${Number(state.rate)}"
-        >
-
-        <button
-          id="modalSave"
-          type="button"
-          class="primary-btn"
-        >
-          Save
-        </button>
-
-      </div>
-    `;
-
-    modal.classList.remove("hidden");
-
-    const saveButton =
-      $("modalSave");
-
-    if (saveButton) {
-
-      saveButton.addEventListener(
-        "click",
-        saveRateFromModal
-      );
-    }
-  }
-
-  function saveRateFromModal() {
+  function saveRateFromSettings() {
 
     const input =
-      $("modalRate");
+      $("rateInput");
 
     if (!input) {
       return;
     }
 
+
     const value =
       Number(input.value);
 
-    if (!Number.isFinite(value) || value <= 0) {
+
+    if (
+      !Number.isFinite(value) ||
+      value <= 0
+    ) {
 
       log(
         "Invalid rate entered"
@@ -598,38 +685,31 @@ const App = (() => {
       return;
     }
 
+
     state =
       Storage.update({
         rate: value
       });
 
-    closeModal();
 
     render();
+
 
     log(
       `Rate changed to ${money(value)}`
     );
   }
 
-  function closeModal() {
 
-    const modal =
-      $("modal");
-
-    if (modal) {
-      modal.classList.add("hidden");
-    }
-  }
-
-  /* ---------------------------------------------------------
+  /* =========================================================
      KEYPAD
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function handleKeypad(button) {
 
     const key =
       button.dataset.key;
+
 
     if (key === "clear") {
 
@@ -638,32 +718,36 @@ const App = (() => {
     } else if (key === "back") {
 
       amount =
-        Math.floor(amount / 10);
+        Math.floor(
+          amount / 10
+        );
 
     } else {
-
-      /*
-        Prevent accidental huge values.
-        Amount is still integer because this
-        dispenser accepts rupee amounts.
-      */
 
       const nextValue =
         Number(
           `${amount === 0 ? "" : amount}${key}`
         );
 
-      if (Number.isFinite(nextValue)) {
-        amount = nextValue;
+
+      if (
+        Number.isFinite(nextValue)
+      ) {
+
+        amount =
+          nextValue;
       }
     }
 
+
     render();
 
+
     log(
-      `Amount entered: ${money(amount)}`
+      `Amount: ${money(amount)}`
     );
   }
+
 
   function bindKeypad() {
 
@@ -674,8 +758,11 @@ const App = (() => {
       return;
     }
 
+
     keypad
-      .querySelectorAll("button[data-key]")
+      .querySelectorAll(
+        "button[data-key]"
+      )
       .forEach(button => {
 
         button.addEventListener(
@@ -686,14 +773,16 @@ const App = (() => {
       });
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      SETTINGS
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function bindSettings() {
 
     const saveButton =
       $("saveSettings");
+
 
     if (saveButton) {
 
@@ -703,8 +792,10 @@ const App = (() => {
       );
     }
 
+
     const syncButton =
       $("syncNow");
+
 
     if (syncButton) {
 
@@ -714,8 +805,10 @@ const App = (() => {
       );
     }
 
+
     const clearButton =
       $("clearLocal");
+
 
     if (clearButton) {
 
@@ -726,34 +819,54 @@ const App = (() => {
     }
   }
 
+
   async function saveSettings() {
+
+    const newRate =
+      Number(
+        $("rateInput").value
+      );
+
 
     state =
       Storage.update({
 
         rate:
-          Number($("rateInput").value) ||
-          state.rate,
+          newRate > 0
+            ? newRate
+            : state.rate,
 
         timeoutSeconds:
-          Number($("timeoutInput").value) ||
+          Number(
+            $("timeoutInput").value
+          ) ||
           state.timeoutSeconds,
 
         operator:
-          $("operatorInput").value.trim(),
+          $("operatorInput")
+            .value
+            .trim(),
 
         currency:
-          $("currencyInput").value.trim() ||
+          $("currencyInput")
+            .value
+            .trim() ||
           "₹"
       });
 
+
     render();
 
+
     const result =
-      await API.saveSettings(state);
+      await API.saveSettings(
+        state
+      );
+
 
     const connection =
       $("connectionState");
+
 
     if (connection) {
 
@@ -763,6 +876,7 @@ const App = (() => {
           : "Backend: offline/test mode";
     }
 
+
     log(
       result.ok
         ? "Settings synced"
@@ -770,24 +884,29 @@ const App = (() => {
     );
   }
 
+
   async function syncTransactions() {
 
     const queue =
-      Array.isArray(state.transactions)
+      Array.isArray(
+        state.transactions
+      )
         ? [...state.transactions]
         : [];
+
 
     for (const tx of queue) {
 
       const result =
         await API.saveTransaction(tx);
 
+
       if (result.ok) {
 
         state.transactions =
           state.transactions.filter(
-            x =>
-              x.transactionId !==
+            item =>
+              item.transactionId !==
               tx.transactionId
           );
 
@@ -795,12 +914,15 @@ const App = (() => {
       }
     }
 
+
     render();
+
 
     log(
       "Sync attempt completed"
     );
   }
+
 
   function clearLocalQueue() {
 
@@ -812,37 +934,57 @@ const App = (() => {
       return;
     }
 
+
     state =
       Storage.clearQueue();
 
+
     render();
+
 
     log(
       "Local queue cleared"
     );
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      EVENT BINDING
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function bind() {
 
-    ensureDeveloperButton();
+    /*
+      ONE button does both jobs:
 
-    const openDev =
-      $("openDev");
+      Operator → Developer
+      Developer → Operator
+    */
 
-    if (openDev) {
+    const settingsToggle =
+      $("settingsToggle");
 
-      openDev.addEventListener(
+
+    if (settingsToggle) {
+
+      settingsToggle.addEventListener(
         "click",
-        () => switchScreen("developer")
+        toggleDeveloperScreen
       );
     }
 
+
+    /*
+      Old Operation button is still present
+      in the current HTML.
+
+      Keep it working for now, although we
+      can remove it from HTML later.
+    */
+
     const backToOperation =
       $("backToOperation");
+
 
     if (backToOperation) {
 
@@ -852,30 +994,10 @@ const App = (() => {
       );
     }
 
-    const editRate =
-      $("editRate");
-
-    if (editRate) {
-
-      editRate.addEventListener(
-        "click",
-        openRateModal
-      );
-    }
-
-    const closeModalButton =
-      $("closeModal");
-
-    if (closeModalButton) {
-
-      closeModalButton.addEventListener(
-        "click",
-        closeModal
-      );
-    }
 
     const dispenseButton =
       $("dispenseBtn");
+
 
     if (dispenseButton) {
 
@@ -885,8 +1007,10 @@ const App = (() => {
       );
     }
 
+
     const stopButton =
       $("stopBtn");
+
 
     if (stopButton) {
 
@@ -896,14 +1020,16 @@ const App = (() => {
       );
     }
 
+
     bindKeypad();
 
     bindSettings();
   }
 
-  /* ---------------------------------------------------------
+
+  /* =========================================================
      INITIALIZATION
-  --------------------------------------------------------- */
+  ========================================================= */
 
   function init() {
 
@@ -911,11 +1037,22 @@ const App = (() => {
 
       bind();
 
+      /*
+        Always start in Operator mode.
+      */
+
+      switchScreen(
+        "operation"
+      );
+
+
       render();
+
 
       log(
         "UI initialized"
       );
+
 
       raw(
         "Waiting for RS485 integration…"
@@ -934,11 +1071,13 @@ const App = (() => {
     }
   }
 
+
   return {
     init
   };
 
 })();
+
 
 document.addEventListener(
   "DOMContentLoaded",
