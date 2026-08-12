@@ -10,120 +10,70 @@
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <div>
-        <div class="brand">श्री कृष्णा मिल्क कलेक्शन</div>
-        <div class="subbrand">Milk Dispenser</div>
+      <div class="brand">श्री कृष्णा मिल्क कलेक्शन</div>
+      <div class="rate-inline">
+        <span>Rate</span>
+        <strong id="rateDisplay">₹70.00/L</strong>
+        <button id="editRate" class="text-btn">Edit</button>
       </div>
-      <button id="openDev" class="icon-btn" aria-label="Developer and settings">⚙</button>
     </header>
 
     <section class="summary-grid">
-      <div class="summary-card">
-        <span>Milk Sold</span>
-        <strong id="totalQty">0.000 L</strong>
-      </div>
-      <div class="summary-card">
-        <span>Amount</span>
-        <strong id="totalAmount">₹0.00</strong>
-      </div>
+      <div class="summary-card"><span>Milk Sold</span><strong id="totalQty">0.000 L</strong></div>
+      <div class="summary-card"><span>Amount</span><strong id="totalAmount">₹0.00</strong></div>
     </section>
 
-    <section id="operationScreen" class="screen operation-screen">
-<header class="app-header">
-  <div class="brand">श्री कृष्णा मिल्क कलेक्शन</div>
-  <div class="header-actions">
-    <div class="rate-readonly">Rate <strong id="rateDisplay">₹100.00/L</strong></div>
-    <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙</button>
-  </div>
-</header>
+    <section id="operationScreen" class="screen active">
+      <div class="quantity-card">
+        <span class="label">Calculated Milk Quantity</span>
+        <strong id="targetQty">1.429 L</strong>
+      </div>
 
-<div class="summary-grid">
-  <div class="summary-card"><span>Milk Sold</span><strong id="milkSold">0.000 L</strong></div>
-  <div class="summary-card"><span>Amount</span><strong id="totalAmount">₹0.00</strong></div>
-</div>
+      <div class="amount-panel">
+        <span class="label">Enter Amount</span>
+        <div id="amountDisplay" class="amount-display">₹100</div>
+        <div class="keypad" id="keypad">
+          <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+          <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+          <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+          <button data-key="clear">C</button><button data-key="0">0</button><button data-key="back">⌫</button>
+        </div>
+      </div>
 
-<div class="quantity-card">
-  <span>Calculated Milk Quantity</span>
-  <strong id="calculatedQty">1.000 L</strong>
-</div>
+      <div class="preset-row" id="presetRow"></div>
 
-<div class="amount-card">
-  <label>Enter Amount</label>
-  <div id="amountDisplay" class="amount-display">₹100.00</div>
-  <div class="keypad">
-    <button>1</button><button>2</button><button>3</button>
-    <button>4</button><button>5</button><button>6</button>
-    <button>7</button><button>8</button><button>9</button>
-    <button>C</button><button>0</button><button>⌫</button>
-  </div>
-</div>
+      <div class="dispense-card">
+        <span class="label">Dispensing Quantity</span>
+        <strong id="liveQty">0.000 L</strong>
+        <div>Target: <span id="statusTarget">1.429 L</span></div>
+        <div id="statusText">Ready to dispense</div>
+      </div>
 
-<div class="preset-grid">
-  <button>₹20</button><button>₹50</button><button>₹100</button><button>₹200</button>
-</div>
-
-<div class="dispensing-card">
-  <span>Dispensing Quantity</span>
-  <strong id="dispensingQty">0.000 L</strong>
-  <div>Target: <b id="dispensingTarget">1.000 L</b></div>
-  <small id="dispensingStatus">Ready to dispense</small>
-</div>
-
-<button id="dispenseBtn" class="dispense-btn">▶ &nbsp; DISPENSE</button>
-</section>
+      <button id="dispenseBtn" class="primary-btn">DISPENSE</button>
+      <button id="stopBtn" class="secondary-btn stop-inline hidden">STOP</button>
+    </section>
 
     <section id="developerScreen" class="screen">
       <div class="dev-header">
-        <div>
-          <h2>Developer & Settings</h2>
-          <p>Diagnostics, configuration and transaction controls.</p>
-        </div>
+        <div><h2>Developer & Settings</h2><p>Diagnostics, configuration and transaction controls.</p></div>
         <button id="backToOperation" class="secondary-btn">Operation</button>
       </div>
-
       <div class="settings-grid">
-        <label>Rate per litre
-          <input id="rateInput" type="number" min="0" step="0.01">
-        </label>
-        <label>Safety timeout (seconds)
-          <input id="timeoutInput" type="number" min="1" step="1">
-        </label>
-        <label>Operator name
-          <input id="operatorInput" type="text" placeholder="Operator">
-        </label>
-        <label>Currency
-          <input id="currencyInput" type="text" value="₹">
-        </label>
+        <label>Rate per litre<input id="rateInput" type="number" min="0" step="0.01"></label>
+        <label>Safety timeout (seconds)<input id="timeoutInput" type="number" min="1" step="1"></label>
+        <label>Operator name<input id="operatorInput" type="text" placeholder="Operator"></label>
+        <label>Currency<input id="currencyInput" type="text" value="₹"></label>
       </div>
-
       <div class="dev-actions">
         <button id="saveSettings" class="primary-btn">Save Settings</button>
         <button id="syncNow" class="secondary-btn">Sync Transactions</button>
         <button id="clearLocal" class="danger-btn">Clear Local Queue</button>
       </div>
-
       <div class="diagnostics-grid">
-        <div class="panel">
-          <div class="panel-title">Connection</div>
-          <div id="connectionState" class="pill offline">Backend: offline/test mode</div>
-          <div id="scaleState" class="pill offline">Scale: not connected</div>
-          <div id="valveState" class="pill offline">Valve: not connected</div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-title">Raw Data</div>
-          <pre id="rawData" class="console"></pre>
-        </div>
-
-        <div class="panel">
-          <div class="panel-title">Application Log</div>
-          <pre id="appLog" class="console"></pre>
-        </div>
-
-        <div class="panel">
-          <div class="panel-title">Transactions waiting to sync</div>
-          <strong id="queueCount">0</strong>
-        </div>
+        <div class="panel"><div class="panel-title">Connection</div><div id="connectionState" class="pill offline">Backend: offline/test mode</div><div id="scaleState" class="pill offline">Scale: not connected</div><div id="valveState" class="pill offline">Valve: not connected</div></div>
+        <div class="panel"><div class="panel-title">Raw Data</div><pre id="rawData" class="console"></pre></div>
+        <div class="panel"><div class="panel-title">Application Log</div><pre id="appLog" class="console"></pre></div>
+        <div class="panel"><div class="panel-title">Transactions waiting to sync</div><strong id="queueCount">0</strong></div>
       </div>
     </section>
   </main>
